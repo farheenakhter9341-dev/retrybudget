@@ -1,0 +1,28 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RetryBudget – outage recovery without retry storms</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Serif:wght@600&display=swap">
+<link rel="stylesheet" href="/static/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script></head><body>
+<header><div><h1>RetryBudget</h1><p>Five retry strategies replay the same outage on the same traffic. Watch what happens to the server when thousands of failed jobs all try again at once.</p></div>
+<div><button class="p" id="run">Run simulation</button> <button id="rnd">New random seed</button> <button id="inj">Start outage at playhead</button></div></header>
+<main>
+<section class="card"><h2>Scenario</h2><div id="ctl"></div></section>
+<section id="kpi"></section>
+<section class="g2">
+ <div class="card"><h2>Topology <span style="font-weight:400;color:var(--mut);font-size:13px">– click a client for its queue; click the server pool to start an outage at the playhead</span></h2>
+  <svg id="topo" viewBox="0 0 900 360" role="img" aria-label="Network topology"></svg><div id="tip" style="font-size:13px;color:var(--mut);min-height:20px"></div></div>
+ <div class="card"><h2>Job queues at playhead</h2><div id="queues"></div><hr style="border:0;border-top:1px solid var(--line)"><div id="bud" style="font-size:13px"></div></div>
+</section>
+<section class="card pb"><button id="play">Play</button><input type="range" id="tk" min="0" value="0" aria-label="Time"><span id="tl" style="min-width:70px"></span>
+ <label>Speed <select id="spd"><option value="1">1×</option><option value="3" selected>3×</option><option value="8">8×</option></select></label>
+ <label>Topology shows <select id="sel"></select></label></section>
+<section class="g4">
+ <div class="card"><h2>Load offered to server (units/s), clipped at 4× capacity</h2><div class="cv"><canvas id="c1"></canvas></div></div>
+ <div class="card"><h2>Goodput: completed work (units/s)</h2><div class="cv"><canvas id="c2"></canvas></div></div>
+ <div class="card"><h2>Backlog: jobs waiting</h2><div class="cv"><canvas id="c3"></canvas></div></div>
+ <div class="card"><h2>Recovery debt and tokens</h2><div class="cv"><canvas id="c4"></canvas></div></div>
+</section>
+<section class="g2"><div class="card"><h2>Strategy comparison</h2><div id="tabs" style="margin-bottom:8px"></div><div class="cv"><canvas id="c5"></canvas></div></div>
+ <div class="card"><h2>What this run found</h2><ul id="find" style="padding-left:18px;margin:0"></ul></div></section>
+<section class="card"><h2>Full results</h2><div style="overflow-x:auto"><table id="tbl"></table></div></section>
+</main><script src="/static/app.js"></script></body></html>
